@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "769855709607",
+    "project_id": "eshopper-ef8a2",
+    "storage_bucket": "eshopper-ef8a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769855709607:android:277b100b87ceee5cb61682",
+        "android_client_info": {
+          "package_name": "com.example.best_eshopper_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769855709607-i6alslrjplnpg29l2qg45aloght7si2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4418iKR60GLp9jVdg7Dy4wCqDjFi_4lc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769855709607-i6alslrjplnpg29l2qg45aloght7si2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
