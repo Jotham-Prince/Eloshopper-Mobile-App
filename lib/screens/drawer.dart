@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import '../services/auth_service.dart';
 import 'home.dart';
 
 class AppDrower extends StatefulWidget {
@@ -120,7 +121,9 @@ class _AppDrowerState extends State<AppDrower> {
           ),
           const Spacer(),
           ListTile(
-            onTap: () {},
+            onTap: () async {
+              await AuthService().signOut();
+            },
             leading: const Icon(
               CupertinoIcons.person_badge_minus,
               color: Colors.orange,

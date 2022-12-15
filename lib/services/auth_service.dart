@@ -47,4 +47,8 @@ class AuthService {
         .signInWithEmailAndPassword(email: email, password: password);
     return userCredential.user;
   }
+
+  Future signOut() async {
+    await firebaseAuth.signOut();
+  }
 }
