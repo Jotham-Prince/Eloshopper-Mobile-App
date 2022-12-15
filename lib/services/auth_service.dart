@@ -25,6 +25,7 @@ class AuthService {
       //else prints the error message onto the console
       print(e);
     }
+    return null;
   }
 
   // Login a user using the provided username and password to Firebase

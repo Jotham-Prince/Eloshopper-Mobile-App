@@ -1,9 +1,10 @@
-// import 'package:best_eshopper_application/screens/register.dart';
-// import 'package:best_eshopper_application/services/auth_service.dart';
+import 'package:best_eshopper_application/screens/register.dart';
+import 'package:best_eshopper_application/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'splash.dart';
+import 'screens/home.dart';
+// import 'splash.dart';
 
 //Main Function called that initializes the application and loads Firebase
 void main() async {
@@ -19,22 +20,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       //Turn the debugger sticker off for the application
       debugShowCheckedModeBanner: false,
       title: 'Eshopper',
       //what is to be launched at app startup time
-      home: Splash(),
-
-      //  StreamBuilder(
-      //   stream: AuthService().firebaseAuth.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasData) {
-      //       return Home();
-      //     }
-      //     return RegisterScreen();
-      //   },
-      // ),
+      home: StreamBuilder(
+        stream: AuthService().firebaseAuth.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const Home();
+          }
+          return const RegisterScreen();
+        },
+      ),
     );
   }
 }
