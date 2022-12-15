@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'drawer.dart';
+import 'product_details.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,8 +14,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //List the product images
-  List _products = [];
+  //instantiate Firebase Firestore for the whole home page
+  var firestoreInstance = FirebaseFirestore.instance;
 
   //this is the position of the dots  that form the images slider
   var _dotPosition = 0;
@@ -23,7 +24,6 @@ class _HomeState extends State<Home> {
 
   //fetch carousel images from the firebase db
   fetchCarouselImages() async {
-    var firestoreInstance = FirebaseFirestore.instance;
     QuerySnapshot qn =
         await firestoreInstance.collection("carousel-images").get();
     setState(() {
@@ -42,6 +42,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       drawer: const AppDrower(),
       appBar: AppBar(
@@ -56,7 +57,7 @@ class _HomeState extends State<Home> {
         elevation: 0.00,
         backgroundColor: Colors.black87,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 4),
         child: Column(
           children: [
@@ -67,16 +68,26 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 3, right: 3),
                         child: Container(
                           decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(30.0),
+                                  bottomLeft: Radius.circular(30.0),
+                                  topLeft: Radius.circular(30.0),
+                                  bottomRight: Radius.circular(30.0)),
                               image: DecorationImage(
                                   image: NetworkImage(item),
                                   fit: BoxFit.cover)),
                         ),
                       )).toList(),
                   options: CarouselOptions(
-                      autoPlay: false,
+                      height: 400,
+                      viewportFraction: 0.75,
+                      enableInfiniteScroll: true,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 4),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 1500),
+                      autoPlayCurve: Curves.fastOutSlowIn,
                       enlargeCenterPage: true,
-                      viewportFraction: 0.8,
-                      enlargeStrategy: CenterPageEnlargeStrategy.height,
                       onPageChanged: (val, carouselPageChangedReason) {
                         setState(() {
                           //to be coded
@@ -97,6 +108,98 @@ class _HomeState extends State<Home> {
                   activeSize: Size(8, 8),
                   size: Size(6, 6)),
             ),
+            StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection("products").snapshots(),
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  return GridView.builder(
+                    physics: const ScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return Card(
+                        child: Container(
+                          height: 290,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          margin: const EdgeInsets.all(1),
+                          padding: const EdgeInsets.all(1),
+                          child: Stack(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Expanded(
+                                    child: GridTile(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          final product =
+                                              snapshot.data!.docs[index].data();
+
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProductDetails(
+                                                        product: product,
+                                                      )));
+                                        },
+                                        child: Image.network(
+                                          snapshot.data!.docs[index]
+                                                  .data()["product-img"] ??
+                                              'https://firebasestorage.googleapis.com/v0/b/eshopper-ef8a2.appspot.com/o/product-images%2Fapple-watch.jpeg?alt=media&token=756d37d3-7f1b-4339-874e-b47e5d3df95f',
+                                          // fit: BoxFit.fitWidth,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    snapshot.data!.docs[index]
+                                            .data()["product-name"] ??
+                                        '',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Josefin',
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "UGX ${snapshot.data!.docs[index].data()["product-new-price"] ?? ''}",
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          fontFamily: 'Luzern',
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.0,
+                      crossAxisSpacing: 1.0,
+                      mainAxisSpacing: 2,
+                      mainAxisExtent: 200,
+                    ),
+                  );
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+            )
           ],
         ),
       ),
