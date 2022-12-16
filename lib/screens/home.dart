@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'cart.dart';
 import 'drawer.dart';
 import 'product_details.dart';
 
@@ -60,7 +61,11 @@ class _HomeState extends State<Home> {
   List<String> _CarouselImages = [];
 
   //fetch carousel images from the firebase db
-  fetchCarouselImages() async {
+  fetchCarouselImages() {
+    asyncFetchCorouselImages();
+  }
+
+  asyncFetchCorouselImages() async {
     QuerySnapshot qn =
         await firestoreInstance.collection("carousel-images").get();
     setState(() {
@@ -73,8 +78,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    fetchCarouselImages();
     super.initState();
+    fetchCarouselImages();
   }
 
   @override
@@ -116,7 +121,17 @@ class _HomeState extends State<Home> {
                       searchState = !searchState;
                     });
                   },
-                )
+                ),
+          IconButton(
+            icon:
+                const Icon(CupertinoIcons.shopping_cart, color: Colors.orange),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
+          ),
         ],
         titleSpacing: 00.0,
         centerTitle: false,

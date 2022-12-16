@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatelessWidget {
   final product;
@@ -9,6 +12,12 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+    String? id = user?.uid;
+    if (id == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
@@ -81,14 +90,14 @@ class ProductDetails extends StatelessWidget {
                           fontFamily: 'Luzern'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 16,
                     ),
                     Text(
                       "Order Quantities:",
                       style: const TextStyle(
                           color: Colors.black87,
                           height: 1.5,
-                          fontSize: 20,
+                          fontSize: 16,
                           fontFamily: 'Sarasori'),
                     ),
                     Text(
@@ -96,7 +105,7 @@ class ProductDetails extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.grey,
                         height: 1.5,
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'Sarasori',
                       ),
                     ),
@@ -108,7 +117,7 @@ class ProductDetails extends StatelessWidget {
                       style: const TextStyle(
                           color: Colors.black87,
                           height: 1.5,
-                          fontSize: 20,
+                          fontSize: 16,
                           fontFamily: 'Sarasori'),
                     ),
                     Text(
@@ -116,7 +125,7 @@ class ProductDetails extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.grey,
                         height: 1.5,
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'Sarasori',
                       ),
                     ),
@@ -125,7 +134,7 @@ class ProductDetails extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.black,
                         height: 1.5,
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'Sarasori',
                       ),
                     ),
@@ -134,7 +143,7 @@ class ProductDetails extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.grey,
                         height: 1.5,
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'Sarasori',
                       ),
                     ),
@@ -143,7 +152,7 @@ class ProductDetails extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.black,
                         height: 1.5,
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'Sarasori',
                       ),
                     ),
@@ -152,12 +161,12 @@ class ProductDetails extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.grey,
                         height: 1.5,
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'Sarasori',
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 16,
                     ),
                     Column(children: [
                       Row(
@@ -166,14 +175,14 @@ class ProductDetails extends StatelessWidget {
                           Text(
                             "Original Price:",
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orange,
                                 fontFamily: 'Sarasori'),
                           ),
                           Text("UGX ${product['product-original-price']}",
                               style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Sarasori')),
                         ],
@@ -184,7 +193,7 @@ class ProductDetails extends StatelessWidget {
                           const Text(
                             'Discount Price:',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orange,
                                 fontFamily: 'Sarasori'),
@@ -192,7 +201,7 @@ class ProductDetails extends StatelessWidget {
                           Text(
                             'UGX ${product['product-new-price']}',
                             style: const TextStyle(
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Sarasori'),
                           )
@@ -200,18 +209,27 @@ class ProductDetails extends StatelessWidget {
                       ),
                     ]),
                     const SizedBox(
-                      height: 20,
+                      height: 16,
                     ),
                     SizedBox(
                       height: 50.0,
                       child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(16.0),
                         shadowColor: Colors.orange,
                         color: Colors.black,
                         elevation: 7.0,
                         child: InkWell(
                           onTap: () {
-                            //adding to cart
+                            //add to the cart
+                            FirebaseFirestore.instance
+                                .collection('Cart')
+                                .doc(id)
+                                .collection('PersonalCart')
+                                .doc(product['product-name'])
+                                .set(product);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "Succesfully added ${product['product-name']} to cart")));
                           },
                           child: const Center(
                             child: Text('Add to Cart',
