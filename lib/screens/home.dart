@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'cart.dart';
 import 'drawer.dart';
 import 'product_details.dart';
+import 'search.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,41 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // var queryResultSet = [];
-  // var tempSearchStore = [];
-
-  // initiateSearch(text) {
-  //   if (queryResultSet.length == 0) {
-  //     setState(() {
-  //       queryResultSet = [];
-  //       tempSearchStore = [];
-  //     });
-  //   }
-
-  //   var capitalizedValue =
-  //       text.subString(0, 1).toUpperCase() + text.subString(1);
-
-  //   if (queryResultSet.length == 0 && text.length == 1) {
-  //     SearchService().searchByName(text).then((QuerySnapshot docs) {
-  //       for (int i = 0; docs.documents.length > 0; ++i) {
-  //         queryResultSet.add(docs.documents[i].data);
-  //       }
-  //     });
-  //   }else{
-  //     tempSearchStore = [];
-  //     queryResultSet.forEach((element) {
-  //       if(element['product-name'].startsWith(capitalizedValue)){
-  //         setState(() {
-  //           tempSearchStore.add(element);
-  //         });
-  //       }
-  //     })
-  //   }
-  // }
-
-  //boolean for searching for products
-  bool searchState = false;
-
   //instantiate Firebase Firestore for the whole home page
   var firestoreInstance = FirebaseFirestore.instance;
 
@@ -87,48 +53,28 @@ class _HomeState extends State<Home> {
     return Scaffold(
       drawer: const AppDrower(),
       appBar: AppBar(
-        title: !searchState
-            ? SizedBox(
-                width: 90,
-                child: Image.asset("assets/images/logo.png"),
-              )
-            : const TextField(
-                decoration: InputDecoration(
-                  icon: Icon(CupertinoIcons.search),
-                  hintText: "Search for products...",
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-                // onChanged: (text) {
-                //   initiateSearch(text);
-                // },
-              ),
-        actions: <Widget>[
-          !searchState
-              ? IconButton(
-                  icon: const Icon(CupertinoIcons.search_circle),
-                  color: Colors.orange,
-                  onPressed: () {
-                    setState(() {
-                      searchState = !searchState;
-                    });
-                  },
-                )
-              : IconButton(
-                  icon: const Icon(CupertinoIcons.delete_left_fill),
-                  color: Colors.orange,
-                  onPressed: () {
-                    setState(() {
-                      searchState = !searchState;
-                    });
-                  },
-                ),
+        title: SizedBox(
+          width: 90,
+          child: Image.asset("assets/images/logo.png"),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(CupertinoIcons.search_circle_fill,
+                color: Colors.orange),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Search()),
+              );
+            },
+          ),
           IconButton(
             icon:
                 const Icon(CupertinoIcons.shopping_cart, color: Colors.orange),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CartScreen()),
+                MaterialPageRoute(builder: (context) => const Savedproductss()),
               );
             },
           ),
@@ -152,10 +98,10 @@ class _HomeState extends State<Home> {
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(20.0),
-                                  bottomLeft: Radius.circular(20.0),
-                                  topLeft: Radius.circular(20.0),
-                                  bottomRight: Radius.circular(20.0)),
+                                  topRight: Radius.circular(10.0),
+                                  bottomLeft: Radius.circular(10.0),
+                                  topLeft: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0)),
                               boxShadow: const [
                                 BoxShadow(
                                   color: Colors.grey,
@@ -196,6 +142,13 @@ class _HomeState extends State<Home> {
                   activeSize: Size(8, 8),
                   size: Size(6, 6)),
             ),
+            const Text("Available Products:",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  fontFamily: 'Luzern',
+                )),
             StreamBuilder(
               stream:
                   FirebaseFirestore.instance.collection("products").snapshots(),

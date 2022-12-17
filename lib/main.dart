@@ -3,6 +3,7 @@ import 'package:best_eshopper_application/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
 
 import 'screens/home.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return StreamProvider.value(
+    return StreamProvider<User?>.value(
       value: FirebaseAuth.instance.authStateChanges(),
       child: MaterialApp(
         //Turn the debugger sticker off for the application

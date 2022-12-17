@@ -4,19 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
 
 class ProductDetails extends StatelessWidget {
-  final product;
-  const ProductDetails({super.key, required this.product});
+  Map<String, dynamic> product;
+  ProductDetails({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
-    String? id = user?.uid;
-    if (id == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    String id = user!.uid;
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(

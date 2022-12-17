@@ -42,6 +42,7 @@ dependencies:
   dots_indicator: ^2.1.0
   cloud_firestore: ^4.2.0
   provider: ^4.3.3
+  ionicons: ^0.2.1
 
 dev_dependencies:
   flutter_test:
