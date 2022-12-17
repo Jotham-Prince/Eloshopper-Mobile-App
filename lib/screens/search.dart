@@ -143,22 +143,6 @@ class _SearchState extends State<Search> {
               mainAxisExtent: 200,
             ),
           );
-          // Container(
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(12),
-          //   ),
-          //   child: ListView.builder(
-          //     itemCount: snapshot.data!.docs.length,
-          //     itemBuilder: (_, index) {
-          //       return Card(
-          //         child: ListTile(
-          //           title: Text(
-          //               snapshot.data!.docChanges[index].doc['product-name']),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // );
         },
       ),
     );

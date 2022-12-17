@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import '../services/auth_service.dart';
+import 'cart.dart';
 import 'home.dart';
 
 class AppDrower extends StatefulWidget {
@@ -46,23 +47,10 @@ class _AppDrowerState extends State<AppDrower> {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const Home()));
-            },
-            leading: const Icon(
-              CupertinoIcons.square_favorites_fill,
-              color: Colors.orange,
-            ),
-            title: const Text(
-              "Favorites",
-              style: TextStyle(
-                  fontFamily: 'Luzern', fontSize: 20, color: Colors.orange),
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const Home()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Savedproductss()),
+              );
             },
             leading: const Icon(
               CupertinoIcons.shopping_cart,

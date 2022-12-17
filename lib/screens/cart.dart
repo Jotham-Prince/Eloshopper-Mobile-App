@@ -15,8 +15,35 @@ class Savedproductss extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
     String id = user!.uid;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(30),
+        child: SizedBox(
+          height: 50.0,
+          child: Material(
+            borderRadius: BorderRadius.circular(20.0),
+            shadowColor: Colors.orange,
+            color: Colors.black,
+            elevation: 7.0,
+            child: InkWell(
+              onTap: () async {
+                //make the order
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Your order has been recieved Succesfully")));
+              },
+              child: const Center(
+                child: Text('Checkout with cash',
+                    style: TextStyle(
+                        color: Colors.orange,
+                        fontFamily: 'Sarasori',
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.grey,
@@ -29,12 +56,54 @@ class Savedproductss extends StatelessWidget {
         ),
         title: const Text('Shopping Cart'),
       ),
-      body: Container(
-          child: Padding(
-        padding: const EdgeInsets.all(
-          10,
-        ),
-        child: Stack(children: [
+      body: SingleChildScrollView(
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Cart')
+                    .doc(user.uid)
+                    .collection('PersonalCart')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final products =
+                        snapshot.data!.docs.map((doc) => doc.data()).toList();
+                    int total = 0;
+                    dynamic ithProduct;
+                    for (int i = 0; i < products.length; i++) {
+                      ithProduct = products[i];
+                      total += ithProduct['product-new-price'] as int;
+                    }
+
+                    return Row(
+                      children: [
+                        const Text(
+                          "Total:",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange,
+                              fontFamily: 'Sarasori'),
+                        ),
+                        Text("UGX $total",
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Sarasori')),
+                      ],
+                    );
+                  } else {
+                    return const LinearProgressIndicator(
+                      minHeight: 4.0,
+                      backgroundColor: Colors.black,
+                      color: Colors.orange,
+                    );
+                  }
+                }),
+          ),
           StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('Cart')
@@ -108,8 +177,15 @@ class Savedproductss extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(snapshot.data!.docs[index]
-                                          ['product-name']),
+                                      Text(
+                                        snapshot.data!.docs[index]
+                                            ['product-name'],
+                                        style: const TextStyle(
+                                          fontFamily: 'Luzern',
+                                          color: Colors.black87,
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                       Padding(
                                           padding: const EdgeInsets.only(
                                               top: 2.0, bottom: 2.0),
@@ -142,79 +218,17 @@ class Savedproductss extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const LinearProgressIndicator(
+                    minHeight: 4.0,
+                    backgroundColor: Colors.black,
+                    color: Colors.orange,
+                  );
                 }
               }),
           const SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.all(30),
-            child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('Cart')
-                    .doc(user.uid)
-                    .collection('PersonalCart')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final products =
-                        snapshot.data!.docs.map((doc) => doc.data()).toList();
-                    int total = 0;
-                    dynamic ithProduct;
-                    for (int i = 0; i < products.length; i++) {
-                      ithProduct = products[i];
-                      total += ithProduct['product-new-price'] as int;
-                    }
-
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Total:",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange,
-                              fontFamily: 'Sarasori'),
-                        ),
-                        Text("UGX $total",
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Sarasori')),
-                      ],
-                    );
-                  } else {
-                    return const LinearProgressIndicator();
-                  }
-                }),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
-            child: SizedBox(
-              height: 50.0,
-              child: Material(
-                borderRadius: BorderRadius.circular(20.0),
-                shadowColor: Colors.orange,
-                color: Colors.black,
-                elevation: 7.0,
-                child: InkWell(
-                  onTap: () async {
-                    //make the order
-                  },
-                  child: const Center(
-                    child: Text('Order items(On Cash Delivery)',
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontFamily: 'Sarasori',
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ]),
+        ],
       )),
     );
   }

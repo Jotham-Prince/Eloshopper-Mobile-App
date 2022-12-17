@@ -237,7 +237,13 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                    child: LinearProgressIndicator(
+                      minHeight: 4.0,
+                      backgroundColor: Colors.black,
+                      color: Colors.orange,
+                    ),
+                  );
                 }
               }),
             )
