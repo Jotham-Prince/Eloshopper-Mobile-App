@@ -7,6 +7,8 @@ import "package:flutter/material.dart";
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
 
+import 'cart.dart';
+
 class ProductDetails extends StatelessWidget {
   Map<String, dynamic> product;
   ProductDetails({super.key, required this.product});
@@ -46,6 +48,11 @@ class ProductDetails extends StatelessWidget {
                       IconButton(
                           onPressed: () {
                             //route to cart
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Savedproductss()),
+                            );
                           },
                           icon: const Icon(Icons.shopping_basket_outlined),
                           color: Colors.black)

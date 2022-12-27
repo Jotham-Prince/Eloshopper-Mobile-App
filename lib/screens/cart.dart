@@ -1,3 +1,4 @@
+import 'package:best_eshopper_application/screens/checkout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
-
+import 'package:best_eshopper_application/globals.dart' as globals;
 import 'product_details.dart';
 
 class Savedproductss extends StatelessWidget {
@@ -29,9 +30,28 @@ class Savedproductss extends StatelessWidget {
             elevation: 7.0,
             child: InkWell(
               onTap: () async {
-                //make the order
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Your order has been recieved Succesfully")));
+                final navigator = Navigator.of(context);
+                QuerySnapshot<Map<String, dynamic>> cart =
+                    await FirebaseFirestore.instance
+                        .collection('Cart')
+                        .doc(id)
+                        .collection('PersonalCart')
+                        .get();
+                if (cart.docs.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("You have Nothing in your Cart")));
+                } else {
+                  final cartContents =
+                      cart.docs.map((doc) => doc.data()).toList();
+                  navigator.push(MaterialPageRoute(
+                      builder: (
+                    _,
+                  ) =>
+                          Checkout(
+                            cartContents: cartContents,
+                            total: globals.total,
+                          )));
+                }
               },
               child: const Center(
                 child: Text('Checkout with cash',
@@ -71,13 +91,13 @@ class Savedproductss extends StatelessWidget {
                   if (snapshot.hasData) {
                     final products =
                         snapshot.data!.docs.map((doc) => doc.data()).toList();
-                    int total = 0;
                     dynamic ithProduct;
+                    int total = 0;
                     for (int i = 0; i < products.length; i++) {
                       ithProduct = products[i];
                       total += ithProduct['product-new-price'] as int;
                     }
-
+                    globals.total = total;
                     return Row(
                       children: [
                         const Text(
