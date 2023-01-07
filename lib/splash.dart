@@ -28,7 +28,7 @@ class _SplashState extends State<Splash> {
     //after the specificed seconds load the home screen
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
 //UI of the splash screen with the logo being loaded
