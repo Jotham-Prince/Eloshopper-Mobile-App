@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "769855709607-is3731rvq0euioto237erc6kcd2rn7p1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.best_eshopper_application",
+            "certificate_hash": "6f70009da9fb409d0beca83ace500d803de3680f"
+          }
+        },
+        {
           "client_id": "769855709607-i6alslrjplnpg29l2qg45aloght7si2b.apps.googleusercontent.com",
           "client_type": 3
         }

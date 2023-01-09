@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class FirestoreService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -6,7 +7,7 @@ class FirestoreService {
   Future deleteCart(String docId) async {
     try {
       // await firestore.collection('Cart').doc(docId).delete();
-      print(
+      debugPrint(
           "==================Am aboout to delete the stuff============================");
       await firestore
           .collection('Cart')
@@ -14,7 +15,7 @@ class FirestoreService {
           .collection('PersonalCart')
           .doc('product-name')
           .delete();
-      print(
+      debugPrint(
           '===================successfull deletion========================================');
     } catch (e) {
       print(e);

@@ -55,7 +55,11 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: SizedBox(
           width: 90,
-          child: Image.asset("assets/images/logo.png"),
+          child: Image.asset(
+            "assets/images/icon.png",
+            height: 35,
+            width: 35,
+          ),
         ),
         actions: [
           IconButton(
@@ -191,7 +195,7 @@ class _HomeState extends State<Home> {
                                         child: Image.network(
                                           snapshot.data!.docs[index]
                                                   .data()["product-img"] ??
-                                              'https://firebasestorage.googleapis.com/v0/b/eshopper-ef8a2.appspot.com/o/product-images%2Fapple-watch.jpeg?alt=media&token=756d37d3-7f1b-4339-874e-b47e5d3df95f',
+                                              '/assets/images/errored.png',
                                           // fit: BoxFit.fitWidth,
                                         ),
                                       ),

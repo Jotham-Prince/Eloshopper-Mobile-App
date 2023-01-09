@@ -22,8 +22,8 @@ class _AppDrowerState extends State<AppDrower> {
           DrawerHeader(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                "https://image.similarpng.com/very-thumbnail/2020/05/Online-shopping-3d-rendering-illustration-transparent-background-PNG.png",
+              child: Image.asset(
+                "assets/images/drawer.png",
                 fit: BoxFit.fitWidth,
               ),
             ),

@@ -43,6 +43,9 @@ dependencies:
   cloud_firestore: ^4.2.0
   provider: ^4.3.3
   ionicons: ^0.2.1
+  google_sign_in: ^5.4.2
+  google_sign_in_web: ^0.10.2
+  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_native_splash: ^2.2.16
@@ -109,10 +112,11 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_native_splash:
-  color: "ffffff"
+  color: "000000"
   image: assets/images/icon.png
 
 flutter_icons:
   image_path: "assets/images/icon.png"
   android: true
   ios: true
+  remove_alpha_ios: true

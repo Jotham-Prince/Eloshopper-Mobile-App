@@ -3,6 +3,7 @@ import 'package:best_eshopper_application/screens/home.dart';
 import 'package:best_eshopper_application/screens/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -33,12 +34,25 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Center(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height / 3.5,
-            child: Image.asset('assets/images/logo.png'),
+            height: MediaQuery.of(context).size.height / 4,
+            child: Image.asset(
+              'assets/images/logo.png',
+              height: 100,
+              width: 100,
+            ),
           ),
         ),
         const SizedBox(
           height: 10,
+        ),
+        const Text(
+          "Login Here!",
+          textAlign: TextAlign.right,
+          style: TextStyle(
+              color: Colors.orange,
+              height: 1.5,
+              fontSize: 30,
+              fontFamily: 'Luzern'),
         ),
         Container(
           margin: const EdgeInsets.only(left: 16.0, right: 21.0),
@@ -185,6 +199,26 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                 ),
+                const Divider(),
+                const SizedBox(
+                  height: 10,
+                ),
+                loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Center(
+                        child: SignInButton(Buttons.Google,
+                            text: "Continue with Google", onPressed: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          //call the google sign in function
+                          await AuthService().signInWithGoogle();
+
+                          setState(() {
+                            loading = false;
+                          });
+                        }),
+                      ),
               ]),
         )
       ])),

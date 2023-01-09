@@ -1,6 +1,8 @@
 import 'package:best_eshopper_application/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'login.dart';
 
 // ignore: must_be_immutable
@@ -32,12 +34,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         Center(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height / 3.5,
-            child: Image.asset('assets/images/logo.png'),
+            height: MediaQuery.of(context).size.height / 4,
+            child: Image.asset(
+              'assets/images/logo.png',
+              height: 100,
+              width: 100,
+            ),
           ),
         ),
         const SizedBox(
           height: 10,
+        ),
+        const Text(
+          "Register Here!",
+          textAlign: TextAlign.right,
+          style: TextStyle(
+              color: Colors.orange,
+              height: 1.5,
+              fontSize: 30,
+              fontFamily: 'Luzern'),
         ),
         Container(
           margin: const EdgeInsets.only(left: 16.0, right: 21.0),
@@ -188,8 +203,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 if (result != null) {
                                   //if the response from the Firebase backend is not empty
                                   //it means that our user has been registered successfully
-                                  print("User created successfully");
-                                  print(result.email);
+                                  debugPrint("User created successfully");
+                                  debugPrint(result.email);
                                 }
                               }
                               setState(() {
@@ -217,6 +232,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                 ),
+                const Divider(),
+                const SizedBox(
+                  height: 10,
+                ),
+                loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Center(
+                        child: SignInButton(Buttons.Google,
+                            text: "Continue with Google", onPressed: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          //call the google sign in function
+                          await AuthService().signInWithGoogle();
+
+                          setState(() {
+                            loading = false;
+                          });
+                        }),
+                      ),
               ]),
         )
       ])),
