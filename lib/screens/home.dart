@@ -9,6 +9,7 @@ import 'cart.dart';
 import 'drawer.dart';
 import 'product_details.dart';
 import 'search.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -180,25 +181,41 @@ class _HomeState extends State<Home> {
                                   Expanded(
                                     child: GridTile(
                                       child: GestureDetector(
-                                        onTap: () {
-                                          final product =
-                                              snapshot.data!.docs[index].data();
+                                          onTap: () {
+                                            final product = snapshot
+                                                .data!.docs[index]
+                                                .data();
 
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ProductDetails(
-                                                        product: product,
-                                                      )));
-                                        },
-                                        child: Image.network(
-                                          snapshot.data!.docs[index]
-                                                  .data()["product-img"] ??
-                                              '/assets/images/errored.png',
-                                          // fit: BoxFit.fitWidth,
-                                        ),
-                                      ),
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ProductDetails(
+                                                          product: product,
+                                                        )));
+                                          },
+                                          child:
+                                              // Image.network(
+                                              //   snapshot.data!.docs[index]
+                                              //           .data()["product-img"] ??
+                                              //       '/assets/images/errored.png',
+                                              //   // fit: BoxFit.fitWidth,
+                                              // ),
+                                              CachedNetworkImage(
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                LinearProgressIndicator(
+                                              value: downloadProgress.progress,
+                                              color: Colors.orange,
+                                              backgroundColor: Colors.black12,
+                                            ),
+                                            errorWidget: ((context, url,
+                                                    error) =>
+                                                Image.asset(
+                                                    'assets/images/placeholder.png')),
+                                            imageUrl: snapshot.data!.docs[index]
+                                                .data()["product-img"],
+                                          )),
                                     ),
                                   ),
                                   Text(

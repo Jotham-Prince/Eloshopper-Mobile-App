@@ -66,10 +66,13 @@ class AuthService {
         //once signed in return the userCredential
         UserCredential userCredential =
             await firebaseAuth.signInWithCredential(credential);
+        print("User signed in #################################");
+        print(userCredential.user);
         return userCredential.user;
       }
     } catch (e) {
       print(e.toString());
+      print("Not signed in############################");
     }
   }
 

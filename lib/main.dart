@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         //Turn the debugger sticker off for the application
         debugShowCheckedModeBanner: false,
-        title: 'Eshopper',
+        title: 'Eloshopper',
         //what is to be launched at app startup time
         home: StreamBuilder(
           stream: AuthService().firebaseAuth.authStateChanges(),

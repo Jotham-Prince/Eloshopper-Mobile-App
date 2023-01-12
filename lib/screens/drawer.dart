@@ -24,7 +24,7 @@ class _AppDrowerState extends State<AppDrower> {
               borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
                 "assets/images/drawer.png",
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fill,
               ),
             ),
           ),

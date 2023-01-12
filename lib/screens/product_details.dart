@@ -144,7 +144,7 @@ class ProductDetails extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Warranty",
+                      product["waranty"],
                       style: const TextStyle(
                         color: Colors.grey,
                         height: 1.5,
@@ -162,7 +162,7 @@ class ProductDetails extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'return policy',
+                      product["return-policy"],
                       style: const TextStyle(
                         color: Colors.grey,
                         height: 1.5,

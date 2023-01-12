@@ -213,7 +213,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                           //call the google sign in function
                           await AuthService().signInWithGoogle();
-
                           setState(() {
                             loading = false;
                           });
