@@ -24,7 +24,7 @@ class AuthService {
       ));
     } catch (e) {
       //else prints the error message onto the console
-      print(e);
+      debugPrint(e.toString());
     }
     return null;
   }
@@ -42,7 +42,7 @@ class AuthService {
         backgroundColor: Colors.red,
       ));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     UserCredential userCredential = await firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password);
@@ -66,13 +66,10 @@ class AuthService {
         //once signed in return the userCredential
         UserCredential userCredential =
             await firebaseAuth.signInWithCredential(credential);
-        print("User signed in #################################");
-        print(userCredential.user);
         return userCredential.user;
       }
     } catch (e) {
-      print(e.toString());
-      print("Not signed in############################");
+      debugPrint(e.toString());
     }
   }
 

@@ -95,7 +95,10 @@ class Savedproductss extends StatelessWidget {
                     int total = 0;
                     for (int i = 0; i < products.length; i++) {
                       ithProduct = products[i];
-                      total += ithProduct['product-new-price'] as int;
+                      // total += ithProduct["product-new-price"] as int;
+                      if (ithProduct["product-new-price"] is int) {
+                        total += ithProduct["product-new-price"] as int;
+                      }
                     }
                     globals.total = total;
                     return Row(

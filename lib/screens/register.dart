@@ -1,7 +1,6 @@
 import 'package:best_eshopper_application/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'login.dart';
 
@@ -146,8 +145,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     GestureDetector(
                       //When someone taps on the text, route to the login page
                       onTap: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => LoginScreen()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => const LoginScreen()));
                       },
                       child: const Text(
                         "Click Here to Login",
