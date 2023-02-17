@@ -28,9 +28,10 @@ class _SearchState extends State<Search> {
         title: Container(
           padding: const EdgeInsets.only(left: 20, right: 10),
           child: TextField(
+            style: const TextStyle(color: Colors.orange),
+            cursorColor: Colors.orange,
             textInputAction: TextInputAction.search,
             decoration: const InputDecoration(
-              fillColor: Colors.grey,
               focusedBorder: UnderlineInputBorder(
                 // borderRadius: BorderRadius.circular(20.0),
                 borderSide: BorderSide(
@@ -41,7 +42,9 @@ class _SearchState extends State<Search> {
                 child: Icon(Icons.search, color: Colors.orange),
               ),
               contentPadding: EdgeInsets.all(15.0),
+              focusColor: Colors.grey,
               hintText: 'Search for products...',
+              hintStyle: TextStyle(color: Colors.grey),
             ),
             controller: searchtf,
             onChanged: (value) {
@@ -61,6 +64,18 @@ class _SearchState extends State<Search> {
               minHeight: 4.0,
               backgroundColor: Colors.black,
               color: Colors.orange,
+            );
+          }
+          if (snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text(
+                "Product Not Found!",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontFamily: 'Luzern',
+                ),
+              ),
             );
           }
           return GridView.builder(
@@ -99,7 +114,7 @@ class _SearchState extends State<Search> {
                                 child: Image.network(
                                   snapshot.data!.docChanges[index]
                                           .doc['product-img'] ??
-                                      'https://firebasestorage.googleapis.com/v0/b/eshopper-ef8a2.appspot.com/o/product-images%2Fapple-watch.jpeg?alt=media&token=756d37d3-7f1b-4339-874e-b47e5d3df95f',
+                                      'Something went wrong.',
                                   // fit: BoxFit.fitWidth,
                                 ),
                               ),
