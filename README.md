@@ -1,6 +1,6 @@
 # best_eshopper_application
 
-An Ecommerce Flutter app where you can buy all sorts of products and stuff, it supports features such as search and add to Cart and it is very fast with amaizing animations and UI.
+An Ecommerce Flutter app where you can buy all sorts of products and you can upload your own products to sell, it supports features such as search and add to Cart and it is very fast with amaizing animations and UI.
 
 ## Getting Started
 
